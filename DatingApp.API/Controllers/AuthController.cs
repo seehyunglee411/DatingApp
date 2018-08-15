@@ -12,7 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API.Controllers
 {
-    [Route("api/[controller]")]        
+    [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -27,14 +27,14 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]UserForRegisterDTO UserForRegisterDTO)
         {
-            if(!ModelState.IsValid)
-            {   
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
             // validate request    
             UserForRegisterDTO.Username = UserForRegisterDTO.Username.ToLower();
-            if(await _repo.UserExists(UserForRegisterDTO.Username))
+            if (await _repo.UserExists(UserForRegisterDTO.Username))
                 return BadRequest("Username already exists");
 
             var userToCreate = new User
@@ -44,14 +44,14 @@ namespace DatingApp.API.Controllers
 
             var createdUser = await _repo.Register(userToCreate, UserForRegisterDTO.Password);
             return StatusCode(201);
-        }   
+        }
 
-        [HttpPost("login")]     
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]UserForLoginDto userForLoginDto)
         {
             var userFromRepo = await _repo.Login(userForLoginDto.Username.ToLower(), userForLoginDto.Password);
 
-            if(userFromRepo == null)
+            if (userFromRepo == null)
                 return Unauthorized();
 
             var claims = new[]
@@ -75,7 +75,8 @@ namespace DatingApp.API.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Ok(new {
+            return Ok(new
+            {
                 token = tokenHandler.WriteToken(token)
             });
         }
