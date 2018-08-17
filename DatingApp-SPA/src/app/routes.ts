@@ -7,7 +7,6 @@ import { MessagesComponent } from './messages/messages.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'home', component: HomeComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',
