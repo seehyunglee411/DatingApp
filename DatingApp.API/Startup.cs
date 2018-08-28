@@ -43,6 +43,7 @@ namespace DatingApp.API
                         = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
             services.AddMvc();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddAutoMapper();
             services.AddCors();
             services.AddTransient<Seed>();
